@@ -29,23 +29,23 @@ export default {
 </script>
 
 <style scoped>
-.header__inner{
+.header__inner {
   display: flex;
   justify-content: space-between;
   padding-top: 15px;
   padding-bottom: 15px;
 }
-nav{
+nav {
   display: flex;
 }
-ul{
+ul {
   display: flex;
   margin: 0;
   height: 0;
   list-style: none;
   margin: 0 -10px;
 }
-li{
+li {
   padding: 0 10px;
 }
 </style>
