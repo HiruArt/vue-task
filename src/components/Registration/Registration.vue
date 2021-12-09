@@ -48,7 +48,7 @@ export default {
       let userData = {
         name: this.nickname,
         password: this.password,
-        inSystem: true,
+        audioFlag: true,
       };
 
       this.createUser(userData);

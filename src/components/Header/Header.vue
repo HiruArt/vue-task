@@ -1,17 +1,20 @@
 <template>
   <header class="header">
+    currUser: {{ currUser }}
     <div class="container header__inner">
       <div class="header_home">
         <router-link to="/">Home</router-link>
       </div>
       <nav>
         <ul>
-          <li>
-            <router-link to="/auth/login">Sign in</router-link>
-          </li>
-          <li>
-            <router-link to="/auth/registration">Sign up</router-link>
-          </li>
+          <template>
+            <li>
+              <router-link to="/auth/login">Sign in</router-link>
+            </li>
+            <li>
+              <router-link to="/auth/registration">Sign up</router-link>
+            </li>
+          </template>
         </ul>
       </nav>
     </div>
@@ -23,7 +26,20 @@ export default {
   name: "Header",
 
   data() {
-    return {};
+    return {
+      currUser: {},
+    };
+  },
+
+
+  mounted() {
+    this.changeCurrentUser();
+  },
+
+  methods: {
+    changeCurrentUser() {
+      this.currUser = JSON.parse(localStorage.getItem("user"));
+    },
   },
 };
 </script>
