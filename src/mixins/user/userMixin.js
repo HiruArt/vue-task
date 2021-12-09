@@ -8,17 +8,45 @@ export default {
       this.userAuthorization(userData);
     },
 
+    loginUser(userData){
+      let storage = JSON.parse(localStorage.getItem('users'));
+
+      console.log(storage, userData);
+    },
+
+    createUserValidation() {
+      //validation
+    },
+
+    loginUserValidation(){
+      //validation
+    },
+
     userAuthorization(user){
       localStorage.setItem('user', JSON.stringify(user));
+
+      this.watchUserInLocalStorage()
+
       this.$router.push('/personal');
     },
 
-    // changeLocalStorage(key, data){
-    //   window.dispatchEvent(new CustomEvent('foo-key-localstorage-changed', {
-    //     detail: {
-    //       storage: localStorage.getItem('foo-key')
-    //     }
-    //   }));
-    // }
+    userExit(){
+      localStorage.setItem("user", '');
+
+      this.watchUserInLocalStorage()
+
+      this.$router.push('/');
+    },
+
+    watchUserInLocalStorage(){
+      window.dispatchEvent(new CustomEvent('changeUser', {
+        detail: {
+          storage: localStorage.getItem('user')
+        }
+      }));
+
+      console.log(localStorage.getItem('user'));
+    }
+
   }
 }

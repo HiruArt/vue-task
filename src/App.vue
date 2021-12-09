@@ -16,7 +16,7 @@ export default {
   },
   mounted() {
     localStorage.setItem("users", JSON.stringify([]));
-    localStorage.setItem("user", JSON.stringify({}));
+    localStorage.setItem("user", JSON.stringify(''));
   },
 };
 </script>

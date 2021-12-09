@@ -10,7 +10,7 @@
           <Input :label="'Password'" v-model="password" :type="'password'" />
         </div>
         <div class="form-btn">
-          <Button :value="'Sign in'" />
+          <Button @click.native="submit" :value="'Sign in'" />
         </div>
       </form>
     </div>
@@ -20,6 +20,7 @@
 <script>
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
+import userMixin from '../../mixins/user/userMixin';
 
 export default {
   name: "Login",
@@ -29,11 +30,24 @@ export default {
     Button,
   },
 
+  mixins: [userMixin],
+
   data() {
     return {
       nickname: "",
       password: "",
     };
+  },
+
+  methods: {
+    submit() {
+      let userData = {
+        name: this.nickname,
+        password: this.password
+      };
+
+      this.loginUser(userData);
+    },
   },
 };
 </script>

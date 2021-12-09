@@ -3,7 +3,7 @@
     <div class="container personal__inner">
       <h1>{{ titlePage }}</h1>
 
-      <div class="personal__block form-block">
+      <div class="personal__block form-block" v-if="user">
         <h2 class="personal__title">
           User
         </h2>
@@ -26,12 +26,16 @@ export default {
   data() {
     return {
       titlePage: "Personal",
-      user: {},
+      user: null,
     };
   },
 
   mounted() {
     this.user = JSON.parse(localStorage.getItem("user"));
+
+    if(!this.user){
+     this.$router.push('/');
+    }
   },
 };
 </script>

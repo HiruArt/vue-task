@@ -1,13 +1,28 @@
 <template>
   <header class="header">
-    currUser: {{ currUser }}
     <div class="container header__inner">
       <div class="header_home">
         <router-link to="/">Home</router-link>
       </div>
       <nav>
         <ul>
-          <template>
+          <template v-if="user">
+            <li>
+              <p>
+                Hello,
+                <strong v-if="this.$route.name === 'personal'">{{
+                  JSON.parse(user).name
+                }}</strong>
+                <router-link v-else to="/personal">
+                  <strong> {{ JSON.parse(user).name }}</strong></router-link
+                >
+              </p>
+            </li>
+            <li>
+              <span @click="userExit">Exit</span>
+            </li>
+          </template>
+          <template v-else>
             <li>
               <router-link to="/auth/login">Sign in</router-link>
             </li>
@@ -22,24 +37,22 @@
 </template>
 
 <script>
+import userMixin from "../../mixins/user/userMixin";
 export default {
   name: "Header",
 
+  mixins: [userMixin],
+
   data() {
     return {
-      currUser: {},
+      user: "",
     };
   },
 
-
   mounted() {
-    this.changeCurrentUser();
-  },
-
-  methods: {
-    changeCurrentUser() {
-      this.currUser = JSON.parse(localStorage.getItem("user"));
-    },
+    window.addEventListener("changeUser", (event) => {
+      this.user = event.detail.storage;
+    });
   },
 };
 </script>
@@ -63,5 +76,20 @@ ul {
 }
 li {
   padding: 0 10px;
+}
+li p {
+  margin: 0;
+}
+.header_home a,
+li a,
+li span {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.header_home a:hover,
+li a:hover,
+li span:hover {
+  text-decoration: underline;
 }
 </style>
