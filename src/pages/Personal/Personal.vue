@@ -27,8 +27,11 @@
   </div>
 </template>
 <script>
+import userMixin from '../../mixins/user/userMixin';
 export default {
   name: "Personal",
+
+  mixins: [userMixin],
 
   data() {
     return {
@@ -43,6 +46,13 @@ export default {
     if (this.user.audioFlag) {
       setTimeout(() => {
         this.$refs.audio.play();
+
+        let userUpdate = {
+          name: this.user.name,
+          password: this.user.password
+        }
+
+        localStorage.setItem('user', JSON.stringify(userUpdate));
       }, 1);
     }
 
