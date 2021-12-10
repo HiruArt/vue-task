@@ -5,24 +5,33 @@ export default {
       storage.push(userData);
       localStorage.setItem('users', JSON.stringify(storage));
 
-      this.userAuthorization(userData);
+      this.userAuthorization(userData, true); // audio = true
     },
 
     loginUser(userData){
+      if(this.userExist(userData)){
+        this.userAuthorization(userData);
+      } else {
+        alert ('Such a user does not exist or an incorrect password has been entered!');
+      }
+    },
+
+    userExist(userData){
       let storage = JSON.parse(localStorage.getItem('users'));
+      let userExistFlag = false;
+      storage.map((item) => {
+        if(item.name === userData.name && item.password === userData.password){
+          userExistFlag = true
+        }
+      })
 
-      console.log(storage, userData);
+      return userExistFlag
     },
 
-    createUserValidation() {
-      //validation
-    },
-
-    loginUserValidation(){
-      //validation
-    },
-
-    userAuthorization(user){
+    userAuthorization(user, audio = false){
+      if(audio){
+        user['audioFlag'] = true
+      }
       localStorage.setItem('user', JSON.stringify(user));
 
       this.watchUserInLocalStorage()
@@ -32,20 +41,20 @@ export default {
 
     userExit(){
       localStorage.setItem("user", '');
-
       this.watchUserInLocalStorage()
 
-      this.$router.push('/');
+      if(localStorage.getItem('user') === '' && this.$route.name !== 'dashboard'){
+        this.$router.push('/');
+      }
+    
     },
 
     watchUserInLocalStorage(){
-      window.dispatchEvent(new CustomEvent('changeUser', {
+      return window.dispatchEvent(new CustomEvent('changeUser', {
         detail: {
           storage: localStorage.getItem('user')
         }
       }));
-
-      console.log(localStorage.getItem('user'));
     }
 
   }

@@ -4,16 +4,26 @@
       <h2>Registration</h2>
       <form class="form">
         <div class="form-group">
-          <Input :label="'Nickname'" v-model="nickname" />
+          <Input
+            :label="'Nickname'"
+            v-model="nickname"
+            :class="{ error: validation.nickname }"
+          />
         </div>
         <div class="form-group">
-          <Input :label="'Password'" v-model="password" :type="'password'" />
+          <Input
+            :label="'Password'"
+            v-model="password"
+            :type="'password'"
+            :class="{ error: validation.password }"
+          />
         </div>
         <div class="form-group">
           <Input
             :label="'Repeat password'"
             v-model="passwordRepeat"
             :type="'password'"
+            :class="{ error: validation.passwordRepeat }"
           />
         </div>
         <div class="form-btn">
@@ -41,6 +51,12 @@ export default {
       nickname: "",
       password: "",
       passwordRepeat: "",
+
+      validation: {
+        nickname: false,
+        password: false,
+        passwordRepeat: false,
+      },
     };
   },
   methods: {
@@ -48,10 +64,41 @@ export default {
       let userData = {
         name: this.nickname,
         password: this.password,
-        audioFlag: true,
       };
 
+      if (!this.validationField(userData)) return;
+
       this.createUser(userData);
+    },
+
+    validationField(userData) {
+      let nameValid = true,
+        passwordValid = true,
+        userExist = false;
+
+      this.validation = {
+        nickname: false,
+        password: false,
+        passwordRepeat: false,
+      }
+
+      if (this.userExist(userData)) {
+        alert("A user with this name already exists!");
+        userExist = true;
+      }
+
+      if(this.nickname === ""){
+        this.validation.nickname = true
+        nameValid = false
+      }
+
+      if (this.password === "" || this.password !== this.passwordRepeat) {
+        this.validation.password = true;
+        this.validation.passwordRepeat = true;
+        passwordValid = false;
+      }
+
+      return nameValid && passwordValid && !userExist;
     },
   },
 };

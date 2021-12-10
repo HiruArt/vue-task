@@ -46,6 +46,10 @@ export default {
   background: white;
   border-radius: 4px;
   transition: 0.15s;
-  border: 0;
+  border: 1px solid transparent;
+}
+
+.error input{
+  border-color: red;
 }
 </style>
